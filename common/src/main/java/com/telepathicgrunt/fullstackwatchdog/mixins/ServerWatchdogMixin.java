@@ -11,13 +11,13 @@ import java.lang.management.ThreadInfo;
 @Mixin(ServerWatchdog.class)
 public class ServerWatchdogMixin {
 
-    @ModifyArg(method = "run()V",
+    @ModifyArg(method = "createWatchdogCrashReport",
             at = @At(value = "INVOKE",
                     target = "Ljava/lang/StringBuilder;append(Ljava/lang/Object;)Ljava/lang/StringBuilder;",
                     ordinal = 0,
-                    remap = false),
-            remap = false)
-    private Object fullstackwatchdog_printEntireThreadDump(Object object) {
+                    remap = false)
+    )
+    private static Object fullstackwatchdog_printEntireThreadDump(Object object) {
         if (object instanceof ThreadInfo threadInfo) {
             return FullStackWatchdog.fullThreadInfoToString(threadInfo);
         }
